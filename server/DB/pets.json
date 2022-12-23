@@ -1,0 +1,53 @@
+[
+     {
+          "type": "dog",
+          "name": "John",
+          "adoptionStatus": "Adopted",
+          "picture": "",
+          "height": "66",
+          "weight": "33",
+          "color": "black",
+          "bio": "",
+          "hypoallergnic": "true",
+          "dietery": "No",
+          "breed": "German Sheperd",
+          "id": "336bb71a-13ce-4c8a-8dc8-de5f97067165",
+          "date": "2022-12-23T15:37:03.892Z",
+          "ownerId": "",
+          "fosterId": ""
+     },
+     {
+          "type": "cat",
+          "name": "Meme",
+          "adoptionStatus": "Fostered",
+          "picture": "",
+          "height": "11",
+          "weight": "4",
+          "color": "white",
+          "bio": "",
+          "hypoallergnic": "false",
+          "dietery": "Fish",
+          "breed": "Siami",
+          "id": "8be2a3c3-60ec-4e0f-96c2-43dd144be7e4",
+          "date": "2022-12-23T15:37:46.477Z",
+          "ownerId": "",
+          "fosterId": ""
+     },
+     {
+          "type": "dog",
+          "name": "Rambo",
+          "adoptionStatus": "Shelter",
+          "picture": "",
+          "height": "55",
+          "weight": "13",
+          "color": "Red",
+          "bio": "",
+          "hypoallergnic": "false",
+          "dietery": "No",
+          "breed": "Doberman",
+          "id": "b8a12b5c-0ce4-4033-bff0-cf77fee39659",
+          "date": "2022-12-23T15:38:29.591Z",
+          "ownerId": "",
+          "fosterId": ""
+     }
+]

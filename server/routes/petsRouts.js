@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const pathToPetsDB = path.resolve(__dirname, '../DB/pets.json')
 const { uuid } = require("uuidv4");
-const { addPet, readAllPets, updatePets } = require('../modules/pets_modules/petsModules')
+const { addPet, readAllPets, updatePets, fosterPet } = require('../modules/pets_modules/petsModules')
 
 router.get('/', (req, res)=>{
      const data = JSON.parse(fs.readFileSync(pathToPetsDB))
@@ -30,6 +30,13 @@ router.post('/', (req,res)=>{
      console.log(err)
      res.status(500).send(err)
    }
+})
+
+router.post('/foster', (req,res)=>{
+  const { petId, userId } = req.body;
+  const response = fosterPet(petId, userId)
+
+  res.send(petId);
 })
 
 

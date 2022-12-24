@@ -12,6 +12,13 @@ function readAllPets() {
           console.log(err);
      }
 }
+function UpdateAllPets(newPetsList){
+     try {
+          fs.writeFileSync(pathToPetsDB, JSON.stringify(newPetsList));
+     } catch (err) {
+          console.log(err);
+     }
+}
 
 function addPet(newPet){
     try {
@@ -22,6 +29,19 @@ function addPet(newPet){
     } catch(err){
      console.log(err);
     }
+}
+
+
+function fosterPet(petId, userId){
+     const allPets = readAllPets()
+       allPets.forEach((pet) => {
+          if (petId === pet.id) {
+               pet.fosterId = userId;
+          }
+     })
+     UpdateAllPets(allPets);
+    
+//    return pet;
 }
 
 // function updatePets(){
@@ -41,4 +61,4 @@ function addPet(newPet){
 // }
 
 
-module.exports = { readAllPets, addPet };
+module.exports = { readAllPets, addPet, fosterPet };

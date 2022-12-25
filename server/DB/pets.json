@@ -2,7 +2,7 @@
      {
           "type": "dog",
           "name": "John",
-          "adoptionStatus": "Adopted",
+          "adoptionStatus": "",
           "picture": "https://images.dog.ceo/breeds/shihtzu/n02086240_5541.jpg",
           "height": "66",
           "weight": "33",
@@ -19,7 +19,7 @@
      {
           "type": "cat",
           "name": "Meme",
-          "adoptionStatus": "Fostered",
+          "adoptionStatus": "",
           "picture": "https://images.dog.ceo/breeds/ridgeback-rhodesian/n02087394_7507.jpg",
           "height": "11",
           "weight": "4",
@@ -31,12 +31,12 @@
           "id": "8be2a3c3-60ec-4e0f-96c2-43dd144be7e4",
           "date": "2022-12-23T15:37:46.477Z",
           "ownerId": "",
-          "fosterId": "1"
+          "fosterId": ""
      },
      {
           "type": "dog",
           "name": "Rambo",
-          "adoptionStatus": "Shelter",
+          "adoptionStatus": "",
           "picture": "https://images.dog.ceo/breeds/terrier-russell/iguet5.jpg",
           "height": "55",
           "weight": "13",
@@ -48,6 +48,9 @@
           "id": "b8a12b5c-0ce4-4033-bff0-cf77fee39659",
           "date": "2022-12-23T15:38:29.591Z",
           "ownerId": "",
-          "fosterId": "1"
+          "fosterId": ""
      }
+
+
+
 ]

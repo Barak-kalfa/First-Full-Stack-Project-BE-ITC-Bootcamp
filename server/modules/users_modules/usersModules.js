@@ -22,4 +22,19 @@ function addUser(newUser) {
      }
 }
 
-module.exports = {addUser, readAllUsers}
+async function addToWishList(userId, petId){
+     try {
+          const allUsers = readAllUsers();
+
+          allUsers.forEach((user) => {
+               if (user.userId == userId && !user.wishList.includes(petId)) {
+                    user.wishList.push(petId);
+               }
+          });
+          fs.writeFileSync(pathToUsersDB, JSON.stringify(allUsers));
+     }catch(err){
+          console.log(err);
+     }
+}
+
+module.exports = { addUser, readAllUsers, addToWishList };

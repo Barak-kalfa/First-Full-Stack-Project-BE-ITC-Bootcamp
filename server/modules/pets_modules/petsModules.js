@@ -1,28 +1,30 @@
 const fs = require("fs");
 const path = require("path");
 const { uuid } = require("uuidv4");
+const { all } = require("../../routes/petsRouts");
 
 const pathToPetsDB = path.resolve(__dirname, "../../DB/pets.json");
 
-function readAllPets() {
+async function readAllPets() {
      try {
-          const petsList = fs.readFileSync(pathToPetsDB);
+          const petsList = await fs.readFileSync(pathToPetsDB);
           return JSON.parse(petsList);
      } catch (err) {
           console.log(err);
      }
 }
-function UpdateAllPets(newPetsList){
+async function UpdateAllPets(newPetsList){
      try {
-          fs.writeFileSync(pathToPetsDB, JSON.stringify(newPetsList));
+          await fs.writeFileSync(pathToPetsDB, JSON.stringify(newPetsList));
      } catch (err) {
           console.log(err);
      }
 }
 
-function addPet(newPet){
+async function addPet(newPet){
     try {
-      const allPets = readAllPets()
+      const allPets = await readAllPets()
+
      allPets.push(newPet)
      fs.writeFileSync(pathToPetsDB, JSON.stringify(allPets))
      return true
@@ -32,33 +34,43 @@ function addPet(newPet){
 }
 
 
-function fosterPet(petId, userId){
-     const allPets = readAllPets()
+async function fosterPet(petId, userId){
+     const allPets = await readAllPets()
        allPets.forEach((pet) => {
           if (petId === pet.id) {
                pet.fosterId = userId;
+                pet.adoptionStatus = "Fosterd";
           }
      })
-     UpdateAllPets(allPets);
-    
-//    return pet;
+     UpdateAllPets(allPets)
+     return true
 }
 
-// function updatePets(){
-//           const pets = readAllPets()
-       
-//      pets.map((pet) => {
-//           pet = {
-//                ...pet,
-//                id: uuid(),
-//               date: new Date(),
-//           };
-//           console.log(pet);
-//      });
-     
-//      fs.writeFileSync(pathToPetsDB, JSON.stringify(pets))
+async function adoptPet(petId, userId) {
+     const allPets = await readAllPets();
+     allPets.forEach((pet) => {
+          if (petId === pet.id) {
+               pet.ownerId = userId;
+               pet.fosterId = ""
+               pet.adoptionStatus = "Adopted";
+          }
+     });
+     UpdateAllPets(allPets);
+     return true;
+}
 
-// }
+async function returnPet(petId) {
+     const allPets = await readAllPets();
+     allPets.forEach((pet) => {
+          if (petId === pet.id) {
+               pet.ownerId = "";
+               pet.adoptionStatus = "";
+               pet.fosterId = ""
+          }
+     });
+     UpdateAllPets(allPets);
+     return true;
+}
 
 
-module.exports = { readAllPets, addPet, fosterPet };
+module.exports = { readAllPets, addPet, fosterPet, adoptPet, returnPet };

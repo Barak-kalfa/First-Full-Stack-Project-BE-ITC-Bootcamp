@@ -13,13 +13,13 @@
           "breed": "German Sheperd",
           "id": "336bb71a-13ce-4c8a-8dc8-de5f97067165",
           "date": "2022-12-23T15:37:03.892Z",
-          "ownerId": "",
+          "ownerId": 10,
           "fosterId": ""
      },
      {
           "type": "cat",
           "name": "Meme",
-          "adoptionStatus": "",
+          "adoptionStatus": "Fosterd",
           "picture": "https://images.dog.ceo/breeds/ridgeback-rhodesian/n02087394_7507.jpg",
           "height": "11",
           "weight": "4",
@@ -31,7 +31,7 @@
           "id": "8be2a3c3-60ec-4e0f-96c2-43dd144be7e4",
           "date": "2022-12-23T15:37:46.477Z",
           "ownerId": "",
-          "fosterId": ""
+          "fosterId": "10"
      },
      {
           "type": "dog",
@@ -50,7 +50,4 @@
           "ownerId": "",
           "fosterId": ""
      }
-
-
-
 ]

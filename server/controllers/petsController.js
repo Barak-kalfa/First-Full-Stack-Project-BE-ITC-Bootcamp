@@ -8,10 +8,11 @@ const {
    getPetModel,
    getPetsModel,
    getAllPetsModel,
+   savePetModel,
+   getPetByUserModel,
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
-   //KNEX:
    try {
       const id = await addPetModel(req.body);
       const newPet = {
@@ -27,7 +28,6 @@ const addPet = async (req, res) => {
 };
 
 const getAllPets = async (req, res) => {
-   //KNEX:
    try {
       const allPets = await getAllPetsModel();
       res.send(allPets);
@@ -38,11 +38,12 @@ const getAllPets = async (req, res) => {
 };
 
 const getPets = async (req, res) => {
-   const { searchInput } = req.body[0];
-   const { seachField } = req.body[0];
+   
+   const { query } = req.query;
+   console.log(query);
    try {
      const pets = await getPetsModel(searchInput, seachField);
-     res.send(pets)
+     res.send([]);
    } catch (err) {
       console.log(err);
    }
@@ -57,6 +58,28 @@ const getPet = async (req, res) => {
       console.log(err);
    }
 };
+
+const getPetByUser = async(req,res)=>{
+   const {userId} = req.params;
+   try{
+     
+      const response = await getPetByUserModel(userId)
+      res.send(response)
+   }catch(err){
+      console.log(err);
+   }
+}
+
+const savePet = async(req, res)=>{
+   const {userId}= req.params;
+   const {petId}= req.params;
+   try{
+      const response = await savePetModel(petId, userId)
+   }catch(err){
+      console.log(err);
+   }
+
+}
 
 const fosterPet = async (req, res) => {
    const petId = req.body[0].petId;
@@ -121,4 +144,5 @@ module.exports = {
    deletePet,
    getPet,
    getPets,
+   getPetByUser,
 };

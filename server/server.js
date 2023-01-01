@@ -6,10 +6,11 @@ const userRoutes = require("./routes/userRoutes.js");
 const petsRoutes = require("./routes/petsRouts.js");
 require("dotenv").config();
 const dbConnection = require("./knex/knex");
-
+const cookieParser = require('cookie-parser');
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser())
 
 app.use("/users", userRoutes);
 app.use("/pets", petsRoutes);

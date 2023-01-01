@@ -3,32 +3,32 @@ const axios = require("axios");
 
 async function getAllPetsModel() {
    try {
-      const petsList = await dbConnection.from("pets");
+      const petsList = await dbConnection.from("pets").limit(10);
       return petsList;
    } catch (err) {
       console.log(err);
    }
 }
 
-async function getPetsModel (searchInput, seachField){
-     // NEED TO ADD ADVANCED SEARCH
-     try{
-          const pets = await dbConnection
-             .from("pets")
-             .whereILike(seachField, `%${searchInput}%`);
-             return pets
-     }catch(err){
-          console.log(err);
-     }
+async function getPetsModel(searchInput, seachField) {
+   // NEED TO ADD ADVANCED SEARCH
+   try {
+      const pets = await dbConnection
+         .from("pets")
+         .whereILike(seachField, `%${searchInput}%`);
+      return pets;
+   } catch (err) {
+      console.log(err);
+   }
 }
 
-async function getPetModel(petId){
-     try{
-          const pet = await dbConnection.from('pets').where({petId: petId})
-          return pet
-     }catch(err){
-          console.log(err);
-     }
+async function getPetModel(petId) {
+   try {
+      const pet = await dbConnection.from("pets").where({ petId: petId });
+      return pet;
+   } catch (err) {
+      console.log(err);
+   }
 }
 
 async function addPetModel(newPet) {
@@ -39,6 +39,25 @@ async function addPetModel(newPet) {
       // newPet.picture = dogPicUrl.data.message;
       const [id] = await dbConnection.from("pets").insert(newPet, "petId");
       return id.petId;
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+// async function savePetModel(petId, userId){
+//    try{
+//       await dbConnection.from('users').where({userId: userId}).update({})
+//    }
+// }
+
+async function getPetByUserModel(userId) {
+   try {
+      const pets = await dbConnection
+         .from("pets")
+         .where({ ownerId: userId })
+         .andWhere({ fosterId: userId });
+      /*.andWhere({SAVED PET})*/
+      return pets;
    } catch (err) {
       console.log(err);
    }
@@ -126,4 +145,5 @@ module.exports = {
    deletePetModel,
    getPetModel,
    getPetsModel,
+   getPetByUserModel,
 };

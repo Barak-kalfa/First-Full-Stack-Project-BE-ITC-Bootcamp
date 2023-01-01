@@ -1,10 +1,11 @@
 const {getUserByEmailModel} = require('../models/usersModels')
+const bcrypt = require('bcrypt')
 
 async function isNewUser(req, res, next) {
      const user = await getUserByEmailModel(req.body.email);
      if (user) {
-          res.status(400).send("User already exists");
-          return;
+        res.status(400).send("User Details Already Exists");
+        return;
      }
      next();
 }

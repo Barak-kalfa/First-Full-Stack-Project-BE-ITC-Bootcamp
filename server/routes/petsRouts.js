@@ -13,6 +13,10 @@ router.get('/', PetsController.getPets)
 
 router.get("/:petId", PetsController.getPet);
 
+router.get('/user/:userId', PetsController.getPetByUser)
+
+// router.post('/:petId/:userId/save', PetsController.savePet)
+
 router.post("/foster", /*validateBody(),*/ PetsController.fosterPet);
 
 router.post("/adopt", /*validateBody(),*/ PetsController.adoptPet);

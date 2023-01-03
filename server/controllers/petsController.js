@@ -9,7 +9,7 @@ const {
    getPetsModel,
    getAllPetsModel,
    savePetModel,
-   getPetByUserModel,
+   getPetsByUserModel,
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
@@ -19,7 +19,6 @@ const addPet = async (req, res) => {
          ...req.body,
          petId: id,
       };
-
       res.send(newPet);
    } catch (err) {
       console.log(err);
@@ -37,13 +36,11 @@ const getAllPets = async (req, res) => {
    }
 };
 
-const getPets = async (req, res) => {
-   
-   const { query } = req.query;
-   console.log(query);
+const searchPets = async (req, res) => {
+   const { searchInput, seachField } = req.body;
    try {
      const pets = await getPetsModel(searchInput, seachField);
-     res.send([]);
+     res.send(pets);
    } catch (err) {
       console.log(err);
    }
@@ -62,8 +59,7 @@ const getPet = async (req, res) => {
 const getPetByUser = async(req,res)=>{
    const {userId} = req.params;
    try{
-     
-      const response = await getPetByUserModel(userId)
+      const response = await getPetsByUserModel(userId)
       res.send(response)
    }catch(err){
       console.log(err);
@@ -71,10 +67,11 @@ const getPetByUser = async(req,res)=>{
 }
 
 const savePet = async(req, res)=>{
-   const {userId}= req.params;
-   const {petId}= req.params;
+   const {userId, petId}= req.body;
    try{
       const response = await savePetModel(petId, userId)
+      console.log(response);
+      res.send(response);
    }catch(err){
       console.log(err);
    }
@@ -82,8 +79,8 @@ const savePet = async(req, res)=>{
 }
 
 const fosterPet = async (req, res) => {
-   const petId = req.body[0].petId;
-   const userId = req.body[0].userId;
+   const petId = req.body.petId;
+   const userId = req.body.userId;
 
    try {
       await fosterPetModel(petId, userId);
@@ -94,8 +91,8 @@ const fosterPet = async (req, res) => {
 };
 
 const adoptPet = async (req, res) => {
-   const petId = req.body[0].petId;
-   const userId = req.body[0].userId;
+   const petId = req.body.petId;
+   const userId = req.body.userId;
    try {
       await adoptPetModel(petId, userId);
       res.send(true);
@@ -105,7 +102,7 @@ const adoptPet = async (req, res) => {
 };
 
 const returnPet = async (req, res) => {
-   const { petId } = req.body[0];
+   const { petId } = req.body;
    try {
       await returnPetModel(petId);
       res.send(true);
@@ -115,7 +112,7 @@ const returnPet = async (req, res) => {
 };
 
 const editPet = async (req, res) => {
-   const petInfo = req.body[0];
+   const petInfo = req.body;
    try {
       console.log(petInfo.petId);
       await editPetModel(petInfo);
@@ -143,6 +140,7 @@ module.exports = {
    adoptPet,
    deletePet,
    getPet,
-   getPets,
+   searchPets,
    getPetByUser,
+   savePet,
 };

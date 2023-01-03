@@ -12,7 +12,12 @@ router.post('/login', UsersController.login)
 
 router.get("/all", validateToken, UsersController.getAllUsers);
 
-router.delete("/:userId/delete", UsersController.deleteUser);
+router.get("/:userId", UsersController.getUserById);
 
+router.get('/:userId/full', UsersController.getFullUserById)
+
+router.put('/update', UsersController.updateUser)
+
+router.delete("/:userId/delete", UsersController.deleteUser);
 
 module.exports = router;

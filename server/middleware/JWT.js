@@ -6,15 +6,14 @@ const createToken = (user)=>{
 }
 
 const validateToken = (req, res, next)=>{
+  
      const accessToken = req.cookies["access-token"];
      if (!accessToken) {
           res.status(400).send({ error: "User Not Authenticated" });
           return;
      }    
      try{
-          const validToken = verify(accessToken, process.env.SECRET_TOKEN, (err, decoded)=>{
-
-          })
+          const validToken = verify(accessToken, process.env.SECRET_TOKEN)
           if (validToken) {
                req.authenticated = true;
                req.body.userId = accessToken.userId;

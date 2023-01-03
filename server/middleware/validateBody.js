@@ -8,7 +8,10 @@ function validateBody(schema){
           const valid = ajv.validate(schema, req.body)
           if (!valid) {
                console.log(ajv.errors);
+          } else{
+               next()
           }
+          
      }    
 }
 

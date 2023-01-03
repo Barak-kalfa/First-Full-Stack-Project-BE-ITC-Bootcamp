@@ -21,28 +21,68 @@ async function signUpModel(newUser) {
    }
 }
 
-//KNEX:
 const getUserByEmailModel = async (email) => {
    try {
-      const user = await dbConnection.from("users").where({ email: email }).first();
+      const user = await dbConnection
+         .from("users")
+         .where({ email: email })
+         .first();
       return user;
    } catch (err) {
       console.log(err);
    }
 };
 
-async function deleteUserModel(userId){
-     try{
-          const deleted = await dbConnection.from("users").where({userId:userId}).del();
-          return deleted;
-     }catch(err){
-          console.log(err);
-     }
-} 
+const getUserByIdModel = async (userId) => {
+   try {
+      const user = await dbConnection
+         .from("users")
+         .where({ userId: userId })
+         .first();
+      user.password = null;
+      return user;
+   } catch (err) {
+      console.log(err);
+   }
+};
+
+const updateUserModel = async(userInfo) => {
+   try {
+      const res = await dbConnection
+         .from("users")
+         .where({ userId: userInfo.userId })
+         .update({
+            firstName: userInfo.firstName,
+            lastName: userInfo.lastName,
+            email: userInfo.email,
+            password: userInfo.password,
+            bio: userInfo.bio,
+            phone: userInfo.phone,
+         });
+
+         return true;
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+async function deleteUserModel(userId) {
+   try {
+      const deleted = await dbConnection
+         .from("users")
+         .where({ userId: userId })
+         .del();
+      return deleted;
+   } catch (err) {
+      console.log(err);
+   }
+}
 
 module.exports = {
    signUpModel,
    readAllUsersModel,
    getUserByEmailModel,
    deleteUserModel,
+   getUserByIdModel,
+   updateUserModel,
 };

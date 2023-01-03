@@ -44,19 +44,23 @@ async function addPetModel(newPet) {
    }
 }
 
-// async function savePetModel(petId, userId){
-//    try{
-//       await dbConnection.from('users').where({userId: userId}).update({})
-//    }
-// }
+async function savePetModel(petId, userId){
 
-async function getPetByUserModel(userId) {
+   try{
+      const response = await dbConnection.insert([{userId:userId, petId:petId}]).into('wish')
+      return response;
+   } catch(err){
+      console.log(err);
+   }
+}
+
+async function getPetsByUserModel(userId) {
    try {
       const pets = await dbConnection
          .from("pets")
          .where({ ownerId: userId })
-         .andWhere({ fosterId: userId });
-      /*.andWhere({SAVED PET})*/
+         .orWhere({ fosterId: userId });
+      /*.orWhere({SAVED PET})*/
       return pets;
    } catch (err) {
       console.log(err);
@@ -145,5 +149,6 @@ module.exports = {
    deletePetModel,
    getPetModel,
    getPetsModel,
-   getPetByUserModel,
+   getPetsByUserModel,
+   savePetModel,
 };

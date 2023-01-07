@@ -10,12 +10,12 @@ async function getAllPetsModel() {
    }
 }
 
-async function searchPetsModel(searchInput, searchFields) {
+async function searchPetsModel(searchText, searchFields) {
    // NEED TO ADD ADVANCED SEARCH
    try {
       const pets = await dbConnection
          .from("pets")
-         .whereILike(searchFields, `%${searchInput}%`);
+         .whereILike(searchFields, `%${searchText}%`);
       return pets;
    } catch (err) {
       console.log(err);
@@ -55,20 +55,21 @@ async function savePetModel(petId, userId) {
    }
 }
 
-async function deleteSavedPetModel(userId, petId) {
+async function deleteSavedPetModel(petId, userId) {
    try {
       const response = await dbConnection
          .from("wish")
-         .where({ userId: userId })
-         .andWhere({ petId: petId })
+         .where("userId", userId)
+         .andWhere('petId', petId)
          .del();
-         return response;
+      return response;
    } catch (err) {
       console.log(err);
    }
 }
 
 async function getPetsByUserModel(userId) {
+
    try {
       const pets = await dbConnection
          .from("pets")

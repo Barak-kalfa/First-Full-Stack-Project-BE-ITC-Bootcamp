@@ -29,7 +29,7 @@ router.post("/save",
 //  validateToken,
   PetsController.savePet);
 
-router.delete("/save",
+router.delete("/save/:userId/:petId",
 //  validateToken,
   PetsController.deleteSavedPet);
 

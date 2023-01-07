@@ -38,9 +38,9 @@ const getAllPets = async (req, res) => {
 };
 
 const searchPets = async (req, res) => {
-   const { searchInput, searchFields } = req.body;
+   const { searchText, searchFields } = req.body;
     try {
-     const pets = await searchPetsModel(searchInput, searchFields)
+     const pets = await searchPetsModel(searchText, searchFields);
       res.send(pets); 
    }catch (err) {
       console.log(err);
@@ -79,7 +79,7 @@ const savePet = async(req, res)=>{
 }
 
 const deleteSavedPet = async(req, res)=>{
-   const {userId, petId} = req.body;
+   const {userId, petId} = req.params;
   try {
     const response = await deleteSavedPetModel(userId, petId);
    if (response) res.send ({ok: true})
@@ -91,9 +91,7 @@ const deleteSavedPet = async(req, res)=>{
 }
 
 const fosterPet = async (req, res) => {
-   const petId = req.body.petId;
-   const userId = req.body.userId;
-
+   const { petId, userId } = req.body
    try {
       const {response} = await fosterPetModel(petId, userId);
       res.send(response);

@@ -1,23 +1,46 @@
 const express = require("express");
 const router = express.Router();
 const UsersController = require("../controllers/usersController");
-const { validateToken } = require("../middleware/JWT");
+const { validateToken, validateAdminToken } = require("../middleware/JWT");
 const { isNewUser, hashPwd } = require("../middleware/usersMiddleware");
 
+router.post(
+     "/signup",
+     isNewUser,
+     hashPwd,
+     UsersController.signUp);
 
+router.post(
+     "/login",
+      UsersController.login);
 
-router.post("/signup", isNewUser, hashPwd, UsersController.signUp);
+router.get(
+   "/all",
+//    validateToken,
+//    validateAdminToken,
+   UsersController.getAllUsers
+);
 
-router.post('/login', UsersController.login)
+router.get(
+     "/:userId",
+     // validateToken,
+     UsersController.getUserById);
 
-router.get("/all", validateToken, UsersController.getAllUsers);
+router.get(
+     "/:userId/full",
+      validateToken,
+       UsersController.getFullUserById);
 
-router.get("/:userId", UsersController.getUserById);
+router.put(
+     "/update",
+     //  validateToken,
+       UsersController.updateUser);
 
-router.get('/:userId/full', UsersController.getFullUserById)
-
-router.put('/update', UsersController.updateUser)
-
-router.delete("/:userId/delete", UsersController.deleteUser);
+router.delete(
+   "/:userId/delete",
+//    validateToken,
+//    validateAdminToken,
+   UsersController.deleteUser
+);
 
 module.exports = router;

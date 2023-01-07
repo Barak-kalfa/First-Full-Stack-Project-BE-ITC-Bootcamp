@@ -6,10 +6,11 @@ const {
    editPetModel,
    deletePetModel,
    getPetModel,
-   getPetsModel,
+   searchPetsModel,
    getAllPetsModel,
    savePetModel,
    getPetsByUserModel,
+   deleteSavedPetModel,
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
@@ -37,14 +38,13 @@ const getAllPets = async (req, res) => {
 };
 
 const searchPets = async (req, res) => {
-   const { searchInput, seachField } = req.body;
-   try {
-     const pets = await getPetsModel(searchInput, seachField);
-     res.send(pets);
-   } catch (err) {
+   const { searchInput, searchFields } = req.body;
+    try {
+     const pets = await searchPetsModel(searchInput, searchFields)
+      res.send(pets); 
+   }catch (err) {
       console.log(err);
-   }
-};
+}};
 
 const getPet = async (req, res) => {
    const { petId } = req.params;
@@ -68,13 +68,25 @@ const getPetByUser = async(req,res)=>{
 
 const savePet = async(req, res)=>{
    const {userId, petId}= req.body;
-   try{
+   try{   
       const response = await savePetModel(petId, userId)
-      console.log(response);
-      res.send(response);
+      if (response) res.send({ok: true});
    }catch(err){
-      console.log(err);
+         console.log(err);
+         res.status(500).send(err);
    }
+
+}
+
+const deleteSavedPet = async(req, res)=>{
+   const {userId, petId} = req.body;
+  try {
+    const response = await deleteSavedPetModel(userId, petId);
+   if (response) res.send ({ok: true})
+  }catch(err){
+      console.log(err);
+      res.status(500).send(err);;
+  }
 
 }
 
@@ -83,8 +95,8 @@ const fosterPet = async (req, res) => {
    const userId = req.body.userId;
 
    try {
-      await fosterPetModel(petId, userId);
-      res.send(true);
+      const {response} = await fosterPetModel(petId, userId);
+      res.send(response);
    } catch (err) {
       console.log(err);
    }
@@ -102,7 +114,7 @@ const adoptPet = async (req, res) => {
 };
 
 const returnPet = async (req, res) => {
-   const { petId } = req.body;
+   const { petId } = req.params;
    try {
       await returnPetModel(petId);
       res.send(true);
@@ -143,4 +155,5 @@ module.exports = {
    searchPets,
    getPetByUser,
    savePet,
-};
+   deleteSavedPet,
+}

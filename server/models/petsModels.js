@@ -10,12 +10,12 @@ async function getAllPetsModel() {
    }
 }
 
-async function getPetsModel(searchInput, seachField) {
+async function searchPetsModel(searchInput, searchFields) {
    // NEED TO ADD ADVANCED SEARCH
    try {
       const pets = await dbConnection
          .from("pets")
-         .whereILike(seachField, `%${searchInput}%`);
+         .whereILike(searchFields, `%${searchInput}%`);
       return pets;
    } catch (err) {
       console.log(err);
@@ -44,12 +44,26 @@ async function addPetModel(newPet) {
    }
 }
 
-async function savePetModel(petId, userId){
-
-   try{
-      const response = await dbConnection.insert([{userId:userId, petId:petId}]).into('wish')
+async function savePetModel(petId, userId) {
+   try {
+      const response = await dbConnection
+         .insert([{ userId: userId, petId: petId }])
+         .into("wish");
       return response;
-   } catch(err){
+   } catch (err) {
+      console.log(err);
+   }
+}
+
+async function deleteSavedPetModel(userId, petId) {
+   try {
+      const response = await dbConnection
+         .from("wish")
+         .where({ userId: userId })
+         .andWhere({ petId: petId })
+         .del();
+         return response;
+   } catch (err) {
       console.log(err);
    }
 }
@@ -60,8 +74,10 @@ async function getPetsByUserModel(userId) {
          .from("pets")
          .where({ ownerId: userId })
          .orWhere({ fosterId: userId });
-      /*.orWhere({SAVED PET})*/
-      return pets;
+      const savedPets = await dbConnection
+         .from("wish")
+         .where({ userId: userId });
+      return { pets, savedPets };
    } catch (err) {
       console.log(err);
    }
@@ -69,11 +85,12 @@ async function getPetsByUserModel(userId) {
 
 async function fosterPetModel(fosterPetId, userId) {
    try {
-      await dbConnection
+      const response = await dbConnection
          .from("pets")
          .where({ petId: fosterPetId })
-         .update({ fosterId: userId });
-      return true;
+         .update({ fosterId: userId,
+         adoptionStatus: "Fostered" });
+      return response;
    } catch (err) {
       console.log(err);
    }
@@ -84,7 +101,8 @@ async function adoptPetModel(adoptPetId, userId) {
       const response = await dbConnection
          .from("pets")
          .where({ petId: adoptPetId })
-         .update({ ownerId: userId });
+         .update({ ownerId: userId,
+         adoptionStatus: "Adopted" });
       return response;
    } catch (err) {
       console.log(err);
@@ -148,7 +166,8 @@ module.exports = {
    editPetModel,
    deletePetModel,
    getPetModel,
-   getPetsModel,
+   searchPetsModel,
    getPetsByUserModel,
    savePetModel,
+   deleteSavedPetModel,
 };

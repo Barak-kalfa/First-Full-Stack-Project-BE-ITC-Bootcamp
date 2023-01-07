@@ -12,7 +12,7 @@ const {
    updateUserModel,
 } = require("../models/usersModels");
 const bcrypt = require("bcrypt");
-const { createToken } = require("../middleware/JWT");
+const { createToken, createAdminToken } = require("../middleware/JWT");
 const { getPetsByUserModel } = require("../models/petsModels");
 
 const signUp = async (req, res) => {
@@ -42,6 +42,13 @@ const login = async (req, res) => {
                maxAge: 604800000,
                httpOnly: true,
             });
+         if (user.isAdmin) {
+              const adminAccessToken = createAdminToken(user);
+              res.cookie("admin-access-token", adminAccessToken, {
+                 maxAge: 86400000,
+                 httpOnly: true,
+              });
+         }
             res.send({
                userId: user.userId,
                firstName: user.firstName,

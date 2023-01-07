@@ -6,7 +6,6 @@ const createToken = (user)=>{
 }
 
 const validateToken = (req, res, next)=>{
-  
      const accessToken = req.cookies["access-token"];
      if (!accessToken) {
           res.status(400).send({ error: "User Not Authenticated" });
@@ -24,4 +23,37 @@ const validateToken = (req, res, next)=>{
      }
 }
 
-module.exports = { createToken, validateToken };
+const createAdminToken = (user) =>{
+     const adminAccessToken = sign({userName: user.userName, userId: user.userId}, process.env.ADMIN_SECRET_TOKEN ,{ expiresIn: '1d'})
+     return adminAccessToken
+}
+
+const validateAdminToken = (req, res, next) => {
+   const adminAccessToken = req.cookies["admin-access-token"];
+   if (!adminAccessToken) {
+      res.status(400).send({ error: "Access Denied" });
+      return;
+   }
+   try {
+      const validToken = verify(
+         adminAccessToken,
+         process.env.ADMIN_SECRET_TOKEN
+      );
+      if (validToken) {
+         req.authenticated = true;
+         return next();
+      }
+   } catch (err) {
+      return res.status(400).send({ error: err });
+   }
+};
+
+
+
+module.exports = {
+   createToken,
+   validateToken,
+   createAdminToken,
+   createAdminToken,
+   validateAdminToken,
+};

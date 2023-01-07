@@ -11,9 +11,16 @@ async function readAllUsersModel() {
 
 async function signUpModel(newUser) {
    try {
-      const response = await dbConnection
-         .from("users")
-         .insert(newUser, ["userId"]);
+      const response = await dbConnection.from("users").insert(
+         {
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            phone: newUser.phone,
+            password: newUser.password,
+         },
+         ["userId"]
+      );
       const userId = response[0];
       return userId;
    } catch (err) {
@@ -46,7 +53,7 @@ const getUserByIdModel = async (userId) => {
    }
 };
 
-const updateUserModel = async(userInfo) => {
+const updateUserModel = async (userInfo) => {
    try {
       const res = await dbConnection
          .from("users")
@@ -60,11 +67,11 @@ const updateUserModel = async(userInfo) => {
             phone: userInfo.phone,
          });
 
-         return true;
+      return true;
    } catch (err) {
       console.log(err);
    }
-}
+};
 
 async function deleteUserModel(userId) {
    try {

@@ -18,6 +18,7 @@ async function signUpModel(newUser) {
             email: newUser.email,
             phone: newUser.phone,
             password: newUser.password,
+            isAdmin: false
          },
          ["userId"]
       );

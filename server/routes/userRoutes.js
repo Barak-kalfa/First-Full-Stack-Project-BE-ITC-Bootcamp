@@ -3,9 +3,12 @@ const router = express.Router();
 const UsersController = require("../controllers/usersController");
 const { validateToken, validateAdminToken } = require("../middleware/JWT");
 const { isNewUser, hashPwd } = require("../middleware/usersMiddleware");
+const { validateBody } = require("../middleware/validateBody");
+const { userSchema } = require("../schemas/userSchemas");
 
 router.post(
      "/signup",
+     validateBody(userSchema),
      isNewUser,
      hashPwd,
      UsersController.signUp);
@@ -16,7 +19,7 @@ router.post(
 
 router.get(
    "/all",
-//    validateToken,
+   validateToken,
 //    validateAdminToken,
    UsersController.getAllUsers
 );

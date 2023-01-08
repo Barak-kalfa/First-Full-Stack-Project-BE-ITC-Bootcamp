@@ -2,43 +2,43 @@ const petSchema = {
    type: "object",
    properties: {
       type: {
-         type: "string",
+         type: "string"
       },
       name: {
-         type: "string",
+         type: "string"
       },
       adoptionStatus: {
-         type: "string",
+         type: "string"
       },
       picture: {
-         type: "string",
+         type: "string"
       },
       breed: {
-         type: "string",
+         type: "string"
       },
       bio: {
-         type: "string",
+         type: "string"
       },
       height: {
-         type: "float",
+         type: "float"
       },
       weight: {
-         type: "float",
+         type: "float"
       },
       color: {
-         type: "string",
+         type: "string"
       },
       hypoallerganic: {
-         type: "boolean",
+         type: "boolean"
       },
       dietary: {
-         type: "string",
+         type: "string"
       },
       ownerId: {
-         type: "integer",
+         type: "integer"
       },
       fosterId: {
-         type: "integer",
+         type: "integer"
       }
    },
    required: ["type", "name", "picture"],

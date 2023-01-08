@@ -4,15 +4,21 @@ const PetsController = require("../controllers/petsController");
 const { validateBody } = require("../middleware/validateBody");
 const { petSchema } = require("../schemas/petSchemas");
 const { validateToken, validateAdminToken } = require("../middleware/JWT");
+const {upload} = require("../middleware/imgMiddleware");
+const { x } = require("../middleware/petsMiddleware");
+
 
 router.post(
-   "/",
-  //  validateAdminToken,
-  //  validateBody(petSchema),
+   "/", 
+   upload.single("petPicture"),
+   //  genImgUrl,
+   //  validateAdminToken,
+   //  validateBody(petSchema),
    PetsController.addPet
 );
 
 router.get("/all",
+validateToken,
  PetsController.getAllPets);
 
 //NEEDS FIX FOR SEARCHING SEVRAL FIELDS:

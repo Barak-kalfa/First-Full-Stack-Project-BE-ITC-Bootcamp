@@ -42,6 +42,7 @@ const login = async (req, res) => {
                maxAge: 604800000,
                httpOnly: true,
             });
+            console.log("isAdmin:", user.isAdmin);
          if (user.isAdmin) {
               const adminAccessToken = createAdminToken(user);
               res.cookie("admin-access-token", adminAccessToken, {
@@ -61,6 +62,15 @@ const login = async (req, res) => {
       });
    }
 };
+
+const logout = async (req, res) =>{
+   try {
+      res.clearCookie("access-token");
+      console.log('cookies-removed');
+   }catch(err){
+      console.log(err);
+   }
+}
 
 const getAllUsers = async (req, res) => {
    try {
@@ -121,4 +131,5 @@ module.exports = {
    getUserById,
    updateUser,
    getFullUserById,
+   logout,
 };

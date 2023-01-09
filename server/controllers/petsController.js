@@ -14,7 +14,6 @@ const {
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
-   console.log('xxxxxxxx');
    try {
       // const id = await addPetModel(req.body);
       // const newPet = {

@@ -10,6 +10,7 @@ const createToken = (user) => {
 };
 
 const validateToken = (req, res, next) => {
+   console.log(req.cookies["access-token"]);
    const accessToken = req.cookies["access-token"];
    if (!accessToken) {
       res.status(401).send({ error: "User Not Authenticated" });
@@ -19,7 +20,6 @@ const validateToken = (req, res, next) => {
       const validToken = verify(accessToken, process.env.SECRET_TOKEN);
       if (validToken) {
          req.authenticated = true;
-         req.body.userId = accessToken.userId;
          return next();
       }
    } catch (err) {
@@ -31,7 +31,7 @@ const createAdminToken = (user) => {
    const adminAccessToken = sign(
       { userName: user.userName, userId: user.userId },
       process.env.ADMIN_SECRET_TOKEN,
-      { expiresIn: "1d" }
+      { expiresIn: "8h" }
    );
    return adminAccessToken;
 };

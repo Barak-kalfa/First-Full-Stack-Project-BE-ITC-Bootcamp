@@ -18,14 +18,16 @@ const { getPetsByUserModel } = require("../models/petsModels");
 const signUp = async (req, res) => {
    const newUser = req.body;
    try {
-      const userId = await signUpModel(newUser);
-      res.send({ userId: userId, ok: true });
+      const resOk = await signUpModel(newUser);
+      res.send(resOk);
+      console.log('SIGNUP');
    } catch (err) {
       res.status(500).send(err);
    }
 };
 
 const login = async (req, res) => {
+   console.log('LOGIN');
    const { email, password } = req.body;
    const user = await getUserByEmailModel(email);
    if (!user) {
@@ -58,6 +60,7 @@ const login = async (req, res) => {
                bio: user.bio,
                phone: user.phone,
             });
+            console.log('LOGIN END');
          }
       });
    }

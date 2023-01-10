@@ -4,13 +4,13 @@ const PetsController = require("../controllers/petsController");
 const { validateBody } = require("../middleware/validateBody");
 const { petSchema } = require("../schemas/petSchemas");
 const { validateToken, validateAdminToken } = require("../middleware/JWT");
-const {upload} = require("../middleware/imgMiddleware");
-const { x } = require("../middleware/petsMiddleware");
+const {upload, uploadToDisk} = require("../middleware/imgMiddleware");
+
 
 
 router.post(
    "/", 
-   upload.single("petPicture"),
+   uploadToDisk.single("petPicture"),
    //  genImgUrl,
    //  validateAdminToken,
    //  validateBody(petSchema),
@@ -32,25 +32,25 @@ router.get("/user/:userId",
  PetsController.getPetByUser);
 
 router.post("/save",
-//  validateToken,
+ validateToken,
   PetsController.savePet);
 
 router.delete("/save/:userId/:petId",
-//  validateToken,
+ validateToken,
   PetsController.deleteSavedPet);
 
 router.post("/foster",
-//  validateToken,
+ validateToken,
   /*validateBody(),*/
    PetsController.fosterPet);
 
 router.post("/adopt",
-//  validateToken,
+ validateToken,
   /*validateBody(),*/ 
   PetsController.adoptPet);
 
 router.post("/:petId/return",
-//  validateToken,
+ validateToken,
   /*validateBody(),*/
   PetsController.returnPet);
 

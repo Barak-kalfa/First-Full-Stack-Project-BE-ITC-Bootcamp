@@ -24,21 +24,21 @@ const storage = new CloudinaryStorage ({
 
 const upload = multer({ storage: storage });
 
-// const distStorage = multer.diskStorage({
-//    destination: function (req, file, cb) {
-//       cb(null, pathToImages);
-//    },
-//    filename: function (req, file, cb) {
-//       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-//       cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
-//    },
-// });
+const distStorage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, pathToImages);
+   },
+   filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+   },
+});
 
-// const uploadToDisk = multer({ storage: distStorage });
+const uploadToDisk = multer({ storage: distStorage });
 
-// const genImgUrl = (req, send, next) =>{
-//    console.log(req.file.path);
-//    next()
-// }
+const genImgUrl = (req, send, next) =>{
+   console.log(req.file.path);
+   next()
+}
 
-module.exports = { upload };
+module.exports = { upload, uploadToDisk };

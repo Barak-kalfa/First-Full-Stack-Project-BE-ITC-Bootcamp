@@ -69,7 +69,8 @@ const getPetByUser = async(req,res)=>{
 }
 
 const savePet = async(req, res)=>{
-   const {userId, petId}= req.body;
+   const { petId, userId } = req.body;
+
    try{   
       const response = await savePetModel(petId, userId)
       if (response) res.send({ok: true});

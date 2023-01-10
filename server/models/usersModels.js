@@ -18,12 +18,11 @@ async function signUpModel(newUser) {
             email: newUser.email,
             phone: newUser.phone,
             password: newUser.password,
-            isAdmin: false
+            isAdmin: false,
          },
          ["userId"]
       );
-      const userId = response[0];
-      return userId;
+      if (response) return { ok: true };
    } catch (err) {
       console.log(err);
    }
@@ -63,12 +62,10 @@ const updateUserModel = async (userInfo) => {
             firstName: userInfo.firstName,
             lastName: userInfo.lastName,
             email: userInfo.email,
-            password: userInfo.password,
             bio: userInfo.bio,
             phone: userInfo.phone,
          });
-
-      return true;
+         if (res) return true;
    } catch (err) {
       console.log(err);
    }

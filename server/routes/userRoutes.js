@@ -23,13 +23,13 @@ router.get('/logout',
 router.get(
    "/all",
    validateToken,
-//    validateAdminToken,
+   validateAdminToken,
    UsersController.getAllUsers
 );
 
 router.get(
      "/:userId",
-     // validateToken,
+     validateToken,
      UsersController.getUserById);
 
 router.get(
@@ -39,13 +39,13 @@ router.get(
 
 router.put(
      "/update",
-     //  validateToken,
+      validateToken,
        UsersController.updateUser);
 
 router.delete(
    "/:userId/delete",
-//    validateToken,
-//    validateAdminToken,
+   validateToken,
+   validateAdminToken,
    UsersController.deleteUser
 );
 

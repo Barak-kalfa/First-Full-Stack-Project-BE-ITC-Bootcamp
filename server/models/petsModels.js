@@ -12,14 +12,20 @@ async function getAllPetsModel() {
 
 async function searchPetsModel(searchText, searchFields) {
    const { type, name, height, weight, adoptionStatus } = searchFields;
-   console.log(searchText, name);
    try {
       const pets = await dbConnection.from("pets").where((qb) => {
          if (type) qb.whereILike("type", type);
-         if (adoptionStatus) qb.whereILike("type", type);
-            if (name) qb.andWhereILike("name", `%${searchText}%`);
-        //  if (height) qb.andWhereILike('height', `%${searchText}%`);
-         //  if (weight) qb.whereILike("weight", `%${searchText}%`);
+         if (adoptionStatus) qb.whereILike("adoptionStatus", adoptionStatus);
+            if (name) qb.whereILike("name", `%${searchText}%`);
+         if (height) qb.whereBetween("height", [
+            Number(searchText) - Number(searchText) / 2,
+            Number(searchText) + Number(searchText) / 2,
+         ]);
+          if (weight)
+             qb.whereBetween("weight", [
+                Number(searchText) - Number(searchText) / 2,
+                Number(searchText) + Number(searchText) / 2,
+             ]);
       });
       return pets;
    } catch (err) {

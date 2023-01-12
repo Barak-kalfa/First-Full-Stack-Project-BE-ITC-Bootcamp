@@ -15,11 +15,11 @@ async function updatePwd(req, res, next) {
    const oldUser = await getUserByIdModel(req.body.userId);
    req.body.old = oldUser;
    bcrypt.compare(req.body.password, oldUser.password).then((match) => {
-      console.log("match", match);
       if (!match) {
          res.status(400).send({
             error: "Wrong Password",
          });
+         return
       } else if (req.body.newPassword) {
          const saltRounds = 10;
          bcrypt.hash(req.body.newPassword, saltRounds, (err, hash) => {
@@ -28,24 +28,28 @@ async function updatePwd(req, res, next) {
                return;
             }
             req.body.password = hash;
-            next();
+    
+           next();
          });
+      
+      } else {
+         req.body.password = oldUser.password
+           next();
       }
    });
 }
 
 async function updateEmail(req, res, next) {
-   console.log(req.body);
+
    if (req.body.email !== req.body.old.email) {
       const isEmailExist = await getUserByEmailModel(req.body.email);
       if (isEmailExist) {
          res.status(400).send({
             error: "Email Address Already in Use",
          });
-      } else {
-         next();
       }
    }
+   next()
 }
 
 // });

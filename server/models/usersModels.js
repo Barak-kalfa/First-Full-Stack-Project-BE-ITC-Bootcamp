@@ -53,7 +53,7 @@ const getUserByIdModel = async (userId) => {
 };
 
 const updateUserModel = async (userInfo) => {
-   console.log(userInfo.userId )
+
    try {
       const newUser = {
          firstName: userInfo.firstName,

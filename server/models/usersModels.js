@@ -46,7 +46,6 @@ const getUserByIdModel = async (userId) => {
          .from("users")
          .where({ userId: userId })
          .first();
-      user.password = null;
       return user;
    } catch (err) {
       console.log(err);
@@ -54,22 +53,26 @@ const getUserByIdModel = async (userId) => {
 };
 
 const updateUserModel = async (userInfo) => {
+   console.log(userInfo.userId )
    try {
+      const newUser = {
+         firstName: userInfo.firstName,
+         lastName: userInfo.lastName,
+         email: userInfo.email,
+         bio: userInfo.bio,
+         phone: userInfo.phone,
+         password: userInfo.password,
+      };
+
       const res = await dbConnection
          .from("users")
          .where({ userId: userInfo.userId })
-         .update({
-            firstName: userInfo.firstName,
-            lastName: userInfo.lastName,
-            email: userInfo.email,
-            bio: userInfo.bio,
-            phone: userInfo.phone,
-         });
-         if (res) return true;
+         .update(newUser);
+      if (res) return true;
    } catch (err) {
       console.log(err);
    }
-};
+}
 
 async function deleteUserModel(userId) {
    try {

@@ -9,9 +9,8 @@ const {upload, uploadToDisk} = require("../middleware/imgMiddleware");
 
 
 router.post(
-   "/", 
-   uploadToDisk.single("petPicture"),
-   //  genImgUrl,
+   "/",
+   upload.single("petPicture"),
    //  validateAdminToken,
    //  validateBody(petSchema),
    PetsController.addPet
@@ -22,7 +21,7 @@ validateToken,
  PetsController.getAllPets);
 
 //NEEDS FIX FOR SEARCHING SEVRAL FIELDS:
-router.get("/search", PetsController.searchPets);
+router.post("/search", PetsController.searchPets);
 ///////////////////////////////////////
 
 router.get("/:petId",

@@ -2,7 +2,11 @@ const express = require("express");
 const router = express.Router();
 const UsersController = require("../controllers/usersController");
 const { validateToken, validateAdminToken } = require("../middleware/JWT");
-const { isNewUser, hashPwd } = require("../middleware/usersMiddleware");
+const {
+   isNewUser,
+   hashPwd,
+   updatePwdAndEmail,
+} = require("../middleware/usersMiddleware");
 const { validateBody } = require("../middleware/validateBody");
 const { userSchema } = require("../schemas/userSchemas");
 
@@ -38,9 +42,12 @@ router.get(
        UsersController.getFullUserById);
 
 router.put(
-     "/update",
-      validateToken,
-       UsersController.updateUser);
+   "/update",
+   validateToken,
+   //  hashPwd,
+   updatePwdAndEmail,
+   UsersController.updateUser
+);
 
 router.delete(
    "/:userId/delete",

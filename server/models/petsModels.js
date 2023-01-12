@@ -11,11 +11,16 @@ async function getAllPetsModel() {
 }
 
 async function searchPetsModel(searchText, searchFields) {
-   // NEED TO ADD ADVANCED SEARCH
+   const { type, name, height, weight, adoptionStatus } = searchFields;
+   console.log(searchText, name);
    try {
-      const pets = await dbConnection
-         .from("pets")
-         .whereILike(searchFields, `%${searchText}%`);
+      const pets = await dbConnection.from("pets").where((qb) => {
+         if (type) qb.whereILike("type", type);
+         if (adoptionStatus) qb.whereILike("type", type);
+            if (name) qb.andWhereILike("name", `%${searchText}%`);
+        //  if (height) qb.andWhereILike('height', `%${searchText}%`);
+         //  if (weight) qb.whereILike("weight", `%${searchText}%`);
+      });
       return pets;
    } catch (err) {
       console.log(err);
@@ -38,6 +43,7 @@ async function addPetModel(newPet) {
       // );
       // newPet.picture = dogPicUrl.data.message;
       const [id] = await dbConnection.from("pets").insert(newPet, "petId");
+
       return id.petId;
    } catch (err) {
       console.log(err);
@@ -60,7 +66,7 @@ async function deleteSavedPetModel(petId, userId) {
       const response = await dbConnection
          .from("wish")
          .where("userId", userId)
-         .andWhere('petId', petId)
+         .andWhere("petId", petId)
          .del();
       return response;
    } catch (err) {
@@ -69,7 +75,6 @@ async function deleteSavedPetModel(petId, userId) {
 }
 
 async function getPetsByUserModel(userId) {
-
    try {
       const pets = await dbConnection
          .from("pets")
@@ -89,8 +94,7 @@ async function fosterPetModel(fosterPetId, userId) {
       const response = await dbConnection
          .from("pets")
          .where({ petId: fosterPetId })
-         .update({ fosterId: userId,
-         adoptionStatus: "Fostered" });
+         .update({ fosterId: userId, adoptionStatus: "Fostered" });
       return response;
    } catch (err) {
       console.log(err);
@@ -102,8 +106,7 @@ async function adoptPetModel(adoptPetId, userId) {
       const response = await dbConnection
          .from("pets")
          .where({ petId: adoptPetId })
-         .update({ ownerId: userId,
-         adoptionStatus: "Adopted" });
+         .update({ ownerId: userId, adoptionStatus: "Adopted" });
       return response;
    } catch (err) {
       console.log(err);

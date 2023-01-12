@@ -2,6 +2,7 @@ const dbConnection = require("../knex/knex");
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
 app.use(cookieParser());
 
 const {
@@ -11,7 +12,7 @@ const {
    getUserByIdModel,
    updateUserModel,
 } = require("../models/usersModels");
-const bcrypt = require("bcrypt");
+
 const { createToken, createAdminToken } = require("../middleware/JWT");
 const { getPetsByUserModel } = require("../models/petsModels");
 
@@ -89,6 +90,7 @@ const getUserById = async (req, res) => {
    const { userId } = req.params;
    try {
       const user = await getUserByIdModel(userId);
+        user.password = null;
       res.send(user);
    } catch (err) {
       console.log(err);

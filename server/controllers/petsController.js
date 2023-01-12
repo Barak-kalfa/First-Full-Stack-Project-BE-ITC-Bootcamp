@@ -14,15 +14,15 @@ const {
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
+   console.log(req.file.path);
    try {
-      // const id = await addPetModel(req.body);
-      // const newPet = {
-      //    ...req.body,
-      //    petId: id,
-      // };
-      // res.send(newPet);
-      console.log(req.file.path);
-      res.send('test')
+      req.body.picture = req.file.path;
+      const id = await addPetModel(req.body);
+      const newPet = {
+         ...req.body,
+         petId: id,
+      };
+      res.send(newPet);
    } catch (err) {
       console.log(err);
       res.status(500).send(err);

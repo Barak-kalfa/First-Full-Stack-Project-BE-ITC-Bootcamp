@@ -1,7 +1,7 @@
 const multer = require('multer')
 const path = require('path')
 const pathToImages = path.resolve(__dirname, '../images')
-const cloudinary = require('cloudinary') 
+const cloudinary = require('cloudinary').v2 
 const {CloudinaryStorage} = require('multer-storage-cloudinary')
 require("dotenv").config();
 
@@ -36,9 +36,5 @@ const distStorage = multer.diskStorage({
 
 const uploadToDisk = multer({ storage: distStorage });
 
-const genImgUrl = (req, send, next) =>{
-   console.log(req.file.path);
-   next()
-}
 
 module.exports = { upload, uploadToDisk };

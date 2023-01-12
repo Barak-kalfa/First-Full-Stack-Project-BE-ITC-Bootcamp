@@ -11,45 +11,54 @@ async function isNewUser(req, res, next) {
    next();
 }
 
-async function updatePwdAndEmail(req, res, next) {
-   const newUser = req.body;
-   console.log(newUser);
-   const oldUser = await getUserByIdModel(newUser.userId);
-   bcrypt.compare(newUser.password, oldUser.password).then((match) => {
+async function updatePwd(req, res, next) {
+   const oldUser = await getUserByIdModel(req.body.userId);
+   req.body.old = oldUser;
+   bcrypt.compare(req.body.password, oldUser.password).then((match) => {
+      console.log("match", match);
       if (!match) {
          res.status(400).send({
             error: "Wrong Password",
          });
-      } else if (newUser.newPassword) {
-          
-         //    bcrypt.hash(newUser.newPassword, saltRounds, (err, hash) => {
-         //       if (err) {
-         //          res.status(500).send(err.message);
-         //          return;
-         //       }
-         //       req.body.password = hash;
-         //    });
-     
+      } else if (req.body.newPassword) {
+         const saltRounds = 10;
+         bcrypt.hash(req.body.newPassword, saltRounds, (err, hash) => {
+            if (err) {
+               res.status(500).send(err.message);
+               return;
+            }
+            req.body.password = hash;
+            next();
+         });
       }
    });
-   //    if (newUser.email !== oldUser.email) {
-   //      const isEmailExist = await getUserByEmailModel(newUser.email);
-   //      if (isEmailExist) {
-   //         res.status(400).send({
-   //            error: "Email Address Already in Use",
-   //         });
-   //      }
-   //    }
-     const saltRounds = 10;
-      bcrypt.hash(newUser.newPassword, saltRounds, (err, hash) => {
-         if (err) {
-            res.status(500).send(err.message);
-            return;
-         }
-         req.body.password = hash;
-      });
-      next()
 }
+
+async function updateEmail(req, res, next) {
+   console.log(req.body);
+   if (req.body.email !== req.body.old.email) {
+      const isEmailExist = await getUserByEmailModel(req.body.email);
+      if (isEmailExist) {
+         res.status(400).send({
+            error: "Email Address Already in Use",
+         });
+      } else {
+         next();
+      }
+   }
+}
+
+// });
+
+//   const saltRounds = 10;
+//    bcrypt.hash(newUser.newPassword, saltRounds, (err, hash) => {
+//       if (err) {
+//          res.status(500).send(err.message);
+//          return;
+//       }
+//       req.body.password = hash;
+//    });
+//    next()
 
 function hashPwd(req, res, next) {
    const saltRounds = 10;
@@ -63,4 +72,4 @@ function hashPwd(req, res, next) {
    });
 }
 
-module.exports = { isNewUser, hashPwd, updatePwdAndEmail };
+module.exports = { isNewUser, hashPwd, updatePwd, updateEmail };

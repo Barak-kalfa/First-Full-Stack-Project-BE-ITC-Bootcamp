@@ -5,7 +5,8 @@ const { validateToken, validateAdminToken } = require("../middleware/JWT");
 const {
    isNewUser,
    hashPwd,
-   updatePwdAndEmail,
+   updatePwd,
+   updateEmail,
 } = require("../middleware/usersMiddleware");
 const { validateBody } = require("../middleware/validateBody");
 const { userSchema } = require("../schemas/userSchemas");
@@ -45,7 +46,8 @@ router.put(
    "/update",
    validateToken,
    //  hashPwd,
-   updatePwdAndEmail,
+   updatePwd,
+   updateEmail,
    UsersController.updateUser
 );
 

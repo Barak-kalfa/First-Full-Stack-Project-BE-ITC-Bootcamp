@@ -60,6 +60,7 @@ const login = async (req, res) => {
                email: user.email,
                bio: user.bio,
                phone: user.phone,
+               isAdmin: user.isAdmin
             });
             console.log('LOGIN END');
          }
@@ -77,6 +78,7 @@ const logout = async (req, res) =>{
 }
 
 const getAllUsers = async (req, res) => {
+
    try {
       const users = await dbConnection.from("users");
 

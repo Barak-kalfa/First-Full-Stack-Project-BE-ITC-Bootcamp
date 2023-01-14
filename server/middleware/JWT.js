@@ -19,7 +19,8 @@ const validateToken = (req, res, next) => {
       const validToken = verify(accessToken, process.env.SECRET_TOKEN);
       if (validToken) {
          req.authenticated = true;
-         return next();
+         next();
+         return;
       }
    } catch (err) {
       return res.status(400).send({ error: err });
@@ -48,7 +49,8 @@ const validateAdminToken = (req, res, next) => {
       );
       if (validToken) {
          req.authenticated = true;
-         return next();
+         next();
+         return;
       }
    } catch (err) {
       return res.status(400).send({ error: err });

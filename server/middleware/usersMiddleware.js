@@ -16,9 +16,9 @@ async function updatePwd(req, res, next) {
    req.body.old = oldUser;
    bcrypt.compare(req.body.password, oldUser.password).then((match) => {
       if (!match) {
-         res.status(400).send({
-            error: "Wrong Password",
-         });
+         res.status(400).send(
+            "Wrong Password"
+         );
          return
       } else if (req.body.newPassword) {
          const saltRounds = 10;

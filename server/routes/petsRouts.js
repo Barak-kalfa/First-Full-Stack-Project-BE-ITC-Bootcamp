@@ -9,11 +9,11 @@ const {upload, uploadToDisk} = require("../middleware/imgMiddleware");
 
 
 router.post(
-   "/",
-   upload.single("petPicture"),
-   //  validateAdminToken,
-   //  validateBody(petSchema),
-   PetsController.addPet
+  "/",
+  upload.single("petPicture"),
+  validateAdminToken,
+  validateBody(petSchema),
+  PetsController.addPet
 );
 
 router.get("/all",

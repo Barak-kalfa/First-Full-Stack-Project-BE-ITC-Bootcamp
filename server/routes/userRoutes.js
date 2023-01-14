@@ -9,7 +9,7 @@ const {
    updateEmail,
 } = require("../middleware/usersMiddleware");
 const { validateBody } = require("../middleware/validateBody");
-const { userSchema } = require("../schemas/userSchemas");
+const { userSchema, loginSchema } = require("../schemas/userSchemas");
 
 router.post(
      "/signup",
@@ -20,6 +20,7 @@ router.post(
 
 router.post(
      "/login",
+     validateBody(loginSchema),
       UsersController.login);
 
 router.get('/logout',
@@ -45,7 +46,6 @@ router.get(
 router.put(
    "/update",
    validateToken,
-   //  hashPwd,
    updatePwd,
    updateEmail,
    UsersController.updateUser

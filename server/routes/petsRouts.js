@@ -55,7 +55,7 @@ router.post("/:petId/return",
 
 router.put("/edit",
  validateAdminToken,
-  /*validateBody(petSchema),*/
+  // validateBody(petSchema),
    PetsController.editPet);
 
 router.delete("/:petId",

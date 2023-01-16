@@ -1,7 +1,7 @@
 const multer = require('multer')
 const path = require('path')
 const pathToImages = path.resolve(__dirname, '../images')
-const cloudinary = require('cloudinary').v2 
+const cloudinary = require('cloudinary')
 const {CloudinaryStorage} = require('multer-storage-cloudinary')
 require("dotenv").config();
 

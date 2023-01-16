@@ -20,10 +20,10 @@ const petSchema = {
          type: "string"
       },
       height: {
-         type: "float"
+         type: "integer"
       },
       weight: {
-         type: "float"
+         type: "integer"
       },
       color: {
          type: "string"
@@ -42,7 +42,7 @@ const petSchema = {
       }
    },
    required: ["type", "name", "picture"],
-   additionalProperties: false,
+   additionalProperties: true,
 };
 
 

@@ -126,8 +126,8 @@ const returnPet = async (req, res) => {
 
 const editPet = async (req, res) => {
    const petInfo = req.body;
+   console.log('edit pet-req.body:', petInfo);
    try {
-      console.log(petInfo.petId);
       await editPetModel(petInfo);
       res.send(true);
    } catch (err) {

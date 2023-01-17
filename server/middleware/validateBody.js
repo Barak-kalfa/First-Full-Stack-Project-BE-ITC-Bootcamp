@@ -1,18 +1,23 @@
-const Ajv = require('ajv');
+const Ajv = require("ajv");
 const ajv = new Ajv();
 
-
-
-function validateBody(schema){
-     return (req, res, next) =>{
-          const valid = ajv.validate(schema, req.body)
-          if (!valid) {
-               console.log(ajv.errors);
-          } else{
-               next()
-          }
-          
-     }    
+function fixDataTypes(req, res, next) {
+   req.body.hypoallerganic = Boolean(req.body.hypoallerganic);  
+   req.body.height = Number(req.body.height);
+   req.body.weight = Number(req.body.weight);
+   next();
 }
 
-module.exports = {validateBody}
+function validateBody(schema) {
+   return (req, res, next) => {
+      const valid = ajv.validate(schema, req.body);
+      if (!valid) {
+         console.log(ajv.errors);
+         res.status(400).send({ error: "Unable To Create Pet" });
+      } else {
+         next();
+      }
+   };
+}
+
+module.exports = { validateBody, fixDataTypes };

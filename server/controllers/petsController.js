@@ -14,7 +14,6 @@ const {
 } = require("../models/petsModels");
 
 const addPet = async (req, res) => {
-   console.log(req.file.path);
    try {
       req.body.picture = req.file.path;
       const id = await addPetModel(req.body);
@@ -125,6 +124,7 @@ const returnPet = async (req, res) => {
 };
 
 const editPet = async (req, res) => {
+   req.body.picture = req.file.path;
    const petInfo = req.body;
    console.log('edit pet-req.body:', petInfo);
    try {

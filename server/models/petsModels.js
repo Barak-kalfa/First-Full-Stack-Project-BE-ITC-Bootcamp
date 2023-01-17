@@ -48,12 +48,7 @@ async function getPetModel(petId) {
 
 async function addPetModel(newPet) {
    try {
-      // const dogPicUrl = await axios.get(
-      //    "https://dog.ceo/api/breeds/image/random"
-      // );
-      // newPet.picture = dogPicUrl.data.message;
       const [id] = await dbConnection.from("pets").insert(newPet, "petId");
-
       return id.petId;
    } catch (err) {
       console.log(err);

@@ -1,4 +1,4 @@
-const petSchema = {
+const addpetSchema = {
    type: "object",
    properties: {
       type: {
@@ -47,6 +47,55 @@ const petSchema = {
 
 
 
+const editPetSchema = {
+   type: "object",
+   properties: {
+       petId: {
+         type: 'integer'
+      },
+      type: {
+         type: "string"
+      },
+      name: {
+         type: "string"
+      },
+      adoptionStatus: {
+         type: "string"
+      },
+      picture: {
+         type: "string"
+      },
+      breed: {
+         type: "string"
+      },
+      bio: {
+         type: "string"
+      },
+      height: {
+         type: "integer"
+      },
+      weight: {
+         type: "integer"
+      },
+      color: {
+         type: "string"
+      },
+      hypoallerganic: {
+         type: "boolean"
+      },
+      dietary: {
+         type: "string"
+      },
+      ownerId: {
+         type: "integer"
+      },
+      fosterId: {
+         type: "integer"
+      }
+   },
+   additionalProperties: true,
+};
+
 ///MORE SCHEMAS FOR PETS (WITH EVERY POST PUT ...)
 
-module.exports = {petSchema}
+module.exports = {addpetSchema}

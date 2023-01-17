@@ -8,9 +8,9 @@ const { upload, uploadToDisk } = require("../middleware/imgMiddleware");
 
 router.post(
    "/",
+   validateAdminToken,
    upload.single("petPicture"),
    fixDataTypes,
-   validateAdminToken,
    validateBody(petSchema),
    PetsController.addPet
 );

@@ -12,20 +12,24 @@ async function getAllPetsModel() {
 
 async function searchPetsModel(searchText, searchFields) {
    const { type, name, height, weight, adoptionStatus } = searchFields;
+   if (height || weight) {
+      const float = Number(searchText);
+   }
    try {
       const pets = await dbConnection.from("pets").where((qb) => {
          if (type) qb.whereILike("type", type);
          if (adoptionStatus) qb.whereILike("adoptionStatus", adoptionStatus);
-            if (name) qb.whereILike("name", `%${searchText}%`);
-         if (height) qb.whereBetween("height", [
-            Number(searchText) - Number(searchText) / 2,
-            Number(searchText) + Number(searchText) / 2,
-         ]);
-          if (weight)
-             qb.whereBetween("weight", [
-                Number(searchText) - Number(searchText) / 2,
-                Number(searchText) + Number(searchText) / 2,
-             ]);
+         if (name) qb.whereILike("name", `%${searchText}%`);
+         if (height)
+            qb.whereBetween("height", [
+               Math.round(Number(searchText) - (Number(searchText) / 100) * 30),
+               Math.round(Number(searchText) + (Number(searchText) / 100) * 30),
+            ]);
+         if (weight)
+            qb.whereBetween("weight", [
+               Math.round(Number(searchText) - (Number(searchText) / 100) * 30),
+               Math.round(Number(searchText) + (Number(searchText) / 100) * 30),
+            ]);
       });
       return pets;
    } catch (err) {
@@ -124,7 +128,7 @@ async function returnPetModel(returnPetId) {
       const response = await dbConnection
          .from("pets")
          .where({ petId: returnPetId })
-         .update({ ownerId: null, adoptionStatus: null, fosterId: null });
+         .update({ ownerId: null, adoptionStatus: "Availble", fosterId: null });
       return response;
    } catch (err) {
       console.log(err);

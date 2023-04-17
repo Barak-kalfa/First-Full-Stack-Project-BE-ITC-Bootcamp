@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const PetsController = require("../controllers/petsController");
 const { validateBody, fixDataTypes } = require("../middleware/validateBody");
-const { addpetSchema } = require("../schemas/petSchemas");
+const { petSchema } = require("../schemas/petSchemas");
 const { validateToken, validateAdminToken } = require("../middleware/JWT");
 const { upload, uploadToDisk } = require("../middleware/imgMiddleware");
 
@@ -11,7 +11,7 @@ router.post(
    validateAdminToken,
    upload.single("petPicture"),
    fixDataTypes,
-   validateBody(addpetSchema),
+   validateBody(petSchema),
    PetsController.addPet
 );
 
@@ -56,7 +56,7 @@ router.put(
    validateAdminToken,
    upload.single("petPicture"),
    fixDataTypes,
-   validateBody(addpetSchema),
+   validateBody(petSchema),
    PetsController.editPet
 );
 

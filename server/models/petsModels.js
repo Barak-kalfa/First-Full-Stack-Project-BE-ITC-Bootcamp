@@ -154,11 +154,11 @@ async function editPetModel(petInfo) {
    }
 }
 
-async function deletePetModel(deletPetId) {
+async function deletePetModel(deletePetId) {
    try {
       const deleted = await dbConnection
          .from("pets")
-         .where({ petId: deletPetId })
+         .where({ petId: deletePetId })
          .del();
       return deleted;
    } catch (err) {
